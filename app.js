@@ -77,9 +77,9 @@ app.get('/cipher', (req, res) => {
   const shift = parseInt(req.query.shift);
 
   if (!text || !shift) {
-    return res.send('You must enter text and a number!');
+    return res.status(200).send('You must enter text and a number!');
   }
-  res.send(cipher(text, shift));
+  res.status(200).send(cipher(text, shift));
 });
 
 function lotto(arr) {
@@ -96,12 +96,12 @@ function lotto(arr) {
 app.get('/lotto', (req, res) => {
   let userArr = req.query.numbers.split(', ').map((x) => +x);
   if (!userArr || userArr.length !== 6) {
-    return res.send('You must enter 6 numbers!');
+    return res.status(400).send('You must enter 6 numbers!');
   }
   let { results, lottoArr } = lotto(userArr);
   let matchString = results.length < 4 ? `You matched ${results.length}. You lose!` : results.length === 4 ? `You matched ${results.length}! You win a free ticket!` : results.length === 5 ? `You matched ${results.length}! You win $100!` : `You matched ${results.length}! You won the jackpot!`;
 
-  res.send(`Your numbers were: ${userArr.join(', ')}
+  res.status(200).send(`Your numbers were: ${userArr.join(', ')}
             The winning numbers were: ${lottoArr.join(', ')}
             ${matchString}
                 `);
